@@ -2,7 +2,7 @@
 
 Persönlicher 8-Tage-Scheinfastenplan (2.–9. September 2026) als einzelne, statische HTML-Seite.
 
-**Live:** _(nach Aktivierung von GitHub Pages hier eintragen)_
+**Live:** https://stephandel.github.io/scheinfasten/
 
 ## Was die Seite kann
 
