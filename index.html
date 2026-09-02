@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Persönlicher 8-Tage-Scheinfastenplan mit Tagesablauf, Rezepten und Restaurant-Empfehlungen.">
+<meta name="theme-color" content="#33472A">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Scheinfasten">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2333472A'/><text y='72' x='50' font-size='60' text-anchor='middle' fill='%23F6F3EA' font-family='Georgia,serif'>S</text></svg>">
+<title>Scheinfasten-Kur · Bilgen &amp; Stephan · Sept 2026</title>
+<style>
+  :root{
+    --paper:#F6F3EA; --ink:#2B2A22; --ink-soft:#5C5A4A; --line:#DEDACB;
+    --card:#FFFFFF;
+    --green:#4B6B3E; --green-d:#33472A; --green-bg:#E6EEDA; --green-line:#7FA35C; --green-text:#3E5C29;
+    --gold:#B07B2C; --gold-bg:#F6ECD3; --gold-line:#C99A3D; --gold-text:#7A5B1E;
+    --rose-bg:#F2E0DA; --rose-line:#B5654A; --rose-text:#7A3A25;
+    --blue-bg:#E4EDF4; --blue-line:#7FA0BD; --blue-text:#2C567F;
+    --bilgen:#B5654A; --stephan:#3E6B8C;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:50px;
+  }
+  .serif{font-family:Georgia,'Iowan Old Style',serif;}
+
+  /* ---------- Sticky header ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;background:var(--green-d);color:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.18);
+  }
+  .topbar .row1{display:flex;align-items:center;gap:10px;padding:9px 14px 7px;max-width:720px;margin:0 auto;}
+  .brand{font-family:Georgia,serif;font-size:0.92rem;font-weight:700;letter-spacing:.01em;flex:none;}
+  .toggle{display:flex;background:rgba(255,255,255,.14);border-radius:999px;padding:3px;margin-left:auto;}
+  .toggle button{
+    border:none;background:transparent;color:#DCE6DD;padding:6px 13px;border-radius:999px;
+    font-size:0.8rem;font-weight:700;cursor:pointer;transition:.15s;
+  }
+  .toggle button.active{background:var(--paper);color:var(--ink);}
+  .todaybtn{
+    background:var(--gold);color:#241B04;border:none;font-weight:700;font-size:0.76rem;
+    padding:6px 12px;border-radius:999px;cursor:pointer;flex:none;
+  }
+
+  /* ---------- Swipeable day strip ---------- */
+  .daystrip{
+    display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;
+    padding:4px 14px 11px;max-width:720px;margin:0 auto;
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .daystrip::-webkit-scrollbar{display:none;}
+  .daycard{
+    flex:0 0 auto;scroll-snap-align:center;min-width:78px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    border-radius:11px;padding:7px 10px;cursor:pointer;text-align:left;color:#E7F1EA;
+  }
+  .daycard .dow{font-size:0.66rem;opacity:.8;letter-spacing:.03em;text-transform:uppercase;}
+  .daycard .dnum{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;line-height:1.15;color:#fff;}
+  .daycard .dtype{font-size:0.62rem;opacity:.85;margin-top:1px;white-space:nowrap;}
+  .daycard.active{background:var(--paper);border-color:var(--paper);color:var(--ink);}
+  .daycard.active .dnum{color:var(--ink);}
+  .daycard.today::after{
+    content:"";display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);
+    margin-top:4px;
+  }
+  .daycard.active.today::after{background:var(--gold);}
+
+  .wrap{max-width:720px;margin:0 auto;padding:0 14px;}
+
+  /* ---------- Day header ---------- */
+  .dayhead{padding:18px 0 6px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
+  .dayhead .kicker{font-size:0.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:700;}
+  .dayhead h1{font-family:Georgia,serif;font-size:1.42rem;margin:2px 0 4px;font-weight:600;}
+  .dayhead .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+  .badge{font-size:0.7rem;font-weight:700;border-radius:999px;padding:3px 10px;}
+  .badge.kcal{background:var(--green-bg);color:var(--green-text);border:1px solid var(--green-line);}
+  .badge.ctx{background:var(--blue-bg);color:var(--blue-text);border:1px solid var(--blue-line);}
+  .badge.today{background:var(--gold);color:#241B04;}
+  .dayhead .lede{font-size:0.85rem;color:var(--ink-soft);margin:8px 0 0;}
+
+  /* ---------- Section tabs ---------- */
+  .modetabs{
+    position:sticky;top:88px;z-index:40;background:var(--paper);
+    display:flex;gap:6px;padding:9px 0;overflow-x:auto;border-bottom:1px solid var(--line);
+    scrollbar-width:none;margin-bottom:4px;
+  }
+  .modetabs::-webkit-scrollbar{display:none;}
+  .modetabs button{
+    flex:none;padding:7px 13px;border:1px solid var(--line);background:var(--card);
+    border-radius:999px;font-size:0.78rem;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;
+  }
+  .modetabs button.active{background:var(--green);color:#fff;border-color:var(--green);}
+
+  h2.sec{font-family:Georgia,serif;font-size:1.06rem;margin:22px 0 3px;border-bottom:1px solid var(--line);padding-bottom:5px;}
+  p.secnote{font-size:0.78rem;color:var(--ink-soft);margin:0 0 11px;}
+
+  /* ---------- Timeline ---------- */
+  .tl{margin:6px 0 4px;}
+  .tlrow{display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed var(--line);}
+  .tlrow:last-child{border-bottom:none;}
+  .tlrow .t{flex:0 0 52px;font-family:Georgia,serif;font-weight:700;font-size:0.85rem;color:var(--green-text);padding-top:1px;}
+  .tlrow .c{flex:1;}
+  .tlrow .h{font-size:0.88rem;font-weight:700;}
+  .tlrow .d{font-size:0.8rem;color:var(--ink-soft);margin-top:1px;}
+  .tlrow.pause .h{color:var(--gold-text);}
+  .tlrow.meal{background:var(--green-bg);border-radius:9px;padding:10px 11px;margin:5px 0;border-bottom:none;}
+  .tlrow.move .h{color:var(--blue-text);}
+
+  /* ---------- Cards ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:11px;}
+  .card h3{margin:0 0 6px;font-family:Georgia,serif;font-size:0.98rem;font-weight:700;}
+  .card ul{margin:5px 0 0;padding-left:17px;font-size:0.85rem;line-height:1.55;}
+  .card ul li{margin-bottom:3px;}
+  .card .zut{font-size:0.8rem;color:var(--ink-soft);margin:0 0 7px;line-height:1.5;}
+  .card .zut b{color:var(--ink);}
+  .kcaltag{float:right;font-size:0.7rem;background:var(--green-bg);color:var(--green-text);border:1px solid var(--green-line);border-radius:6px;padding:1px 7px;font-weight:700;}
+
+  /* ---------- Meal carousel ---------- */
+  .carousel{
+    display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:2px 0 10px;margin:0 -14px;padding-left:14px;padding-right:14px;
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .carousel::-webkit-scrollbar{display:none;}
+  .carousel .card{
+    flex:0 0 86%;max-width:520px;scroll-snap-align:center;margin-bottom:0;
+    display:flex;flex-direction:column;
+  }
+  .card .plantag{
+    display:inline-block;font-size:0.64rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    background:var(--gold);color:#241B04;border-radius:999px;padding:2px 9px;margin-bottom:6px;
+  }
+  .card .alttag{
+    display:inline-block;font-size:0.64rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    background:var(--green-bg);color:var(--green-text);border:1px solid var(--green-line);
+    border-radius:999px;padding:2px 9px;margin-bottom:6px;
+  }
+  .dishscroll{
+    display:flex;gap:9px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding-bottom:6px;margin-top:9px;scrollbar-width:none;
+  }
+  .dishscroll::-webkit-scrollbar{display:none;}
+  .dishscroll .dish{flex:0 0 82%;scroll-snap-align:start;margin-top:0;}
+
+  .dots{display:flex;gap:6px;justify-content:center;margin:-4px 0 14px;}
+  .dots span{width:6px;height:6px;border-radius:50%;background:var(--line);transition:.2s;}
+  .dots span.on{background:var(--green);width:16px;border-radius:3px;}
+  .swipehint{font-size:0.72rem;color:var(--ink-soft);text-align:center;margin:-4px 0 10px;}
+
+  .callout{border-radius:10px;padding:11px 13px;margin:11px 0;font-size:0.82rem;line-height:1.55;}
+  .callout b{font-weight:700;}
+  .callout.office{background:var(--blue-bg);border:1px solid var(--blue-line);border-left:4px solid var(--blue-text);}
+  .callout.office b{color:var(--blue-text);}
+  .callout.warn{background:var(--gold-bg);border:1px solid var(--gold-line);border-left:4px solid var(--gold);}
+  .callout.warn b{color:var(--gold-text);}
+  .callout.flag{background:var(--rose-bg);border:1px solid var(--rose-line);border-left:4px solid var(--rose-line);}
+  .callout.flag b{color:var(--rose-text);}
+  .callout.neutral{background:#F0ECE0;color:var(--ink-soft);}
+
+  /* ---------- Places ---------- */
+  .place{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:11px;}
+  .place h3{margin:0 0 2px;font-family:Georgia,serif;font-size:0.97rem;font-weight:700;}
+  .place .meta{font-size:0.72rem;color:var(--ink-soft);line-height:1.45;margin-bottom:5px;}
+  .place .walk{display:inline-block;font-size:0.69rem;background:var(--green-bg);color:var(--green-text);border:1px solid var(--green-line);border-radius:6px;padding:2px 8px;font-weight:700;}
+  .dish{border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-top:9px;background:#FCFBF7;}
+  .dish .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline;}
+  .dish .nm{font-weight:700;font-size:0.88rem;}
+  .dish .pk{white-space:nowrap;font-size:0.76rem;}
+  .dish .pk .eur{font-weight:700;}
+  .dish .pk .kc{background:var(--green-bg);color:var(--green-text);border-radius:5px;padding:1px 6px;margin-left:4px;font-weight:700;}
+  .dish .ds{font-size:0.78rem;color:var(--ink-soft);margin-top:3px;line-height:1.45;}
+  .dish .how{font-size:0.8rem;margin-top:6px;line-height:1.5;}
+  .dish .how b{color:var(--green-text);}
+  a.btn{display:inline-block;margin-top:9px;background:var(--ink);color:var(--paper);text-decoration:none;padding:7px 13px;border-radius:8px;font-size:0.78rem;font-weight:600;}
+  a.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-left:5px;}
+
+  /* ---------- Accordion ---------- */
+  details.acc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden;}
+  details.acc summary{
+    padding:12px 15px;font-family:Georgia,serif;font-weight:700;font-size:0.94rem;cursor:pointer;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;
+  }
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary::after{content:"＋";color:var(--ink-soft);font-weight:400;}
+  details.acc[open] summary::after{content:"−";}
+  details.acc .body{padding:0 15px 14px;font-size:0.84rem;line-height:1.6;}
+  details.acc .body ul{padding-left:17px;margin:6px 0;}
+  details.acc .body li{margin-bottom:4px;}
+  details.acc .body h4{font-family:Georgia,serif;font-size:0.88rem;margin:12px 0 4px;color:var(--green-text);}
+
+  table.tbl{width:100%;border-collapse:collapse;font-size:0.8rem;margin:8px 0;}
+  table.tbl th{background:var(--green);color:#fff;text-align:left;padding:7px 9px;font-size:0.75rem;}
+  table.tbl td{padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.tbl tr:nth-child(even) td{background:#FBF9F3;}
+
+  footer{max-width:720px;margin:26px auto 0;padding:14px;border-top:1px solid var(--line);font-size:0.72rem;color:var(--ink-soft);line-height:1.6;}
+
+  @media print{
+    .topbar,.modetabs,.daystrip{display:none;}
+    details.acc{break-inside:avoid;}
+    details.acc .body{display:block !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="row1">
+    <span class="brand">Scheinfasten-Kur</span>
+    <button class="todaybtn" id="todayBtn">Heute</button>
+    <div class="toggle" id="personToggle">
+      <button data-p="bilgen">Bilgen</button>
+      <button data-p="stephan">Stephan</button>
+    </div>
+  </div>
+  <div class="daystrip" id="dayStrip"></div>
+</div>
+
+<div class="wrap">
+  <div id="dayHead"></div>
+  <div class="modetabs" id="modeTabs"></div>
+  <div id="content"></div>
+
+  <h2 class="sec">Nachschlagen</h2>
+  <p class="secnote">Alles, was nicht tagesabhängig ist — aufklappen bei Bedarf.</p>
+  <div id="reference"></div>
+</div>
+
+<footer>
+  <p><b>Grundlagen:</b> Valter Longo — Fasting Mimicking Diet (Kalorien- und Makronährstoff-Rahmen); Prof. Dr. Andreas Michalsen — Scheinfasten (Praxis, Flüssigkeit, Wiederholungsintervall); Monash University — FODMAP-Portionsangaben.</p>
+  <p>Erstellt für Bilgen &amp; Stephan · Start 2. September 2026. Diese Unterlage dient der Orientierung und ersetzt keine ärztliche Beratung. Kalorien- und Preisangaben zu Restaurantgerichten sind Schätzungen bzw. Stand der Recherche — ohne Gewähr.</p>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const PEOPLE = {
+  bilgen:{name:"Bilgen", short:"Bilgen"},
+  stephan:{name:"Stephan", short:"Stephan"}
+};
+
+const DAYS = [
+  {id:"d0", date:"2026-09-02", dow:"Mi", dnum:"2.", type:"Vorbereitung", title:"Vorbereitungstag",
+   kcal:"~1.300 kcal", ctx:{bilgen:"Stuttgart · Dienstreise", stephan:"Homeoffice"},
+   lede:"Ziel: sanft herunterfahren. Heute noch eine Tasse Kaffee, kein Zucker, kein Alkohol, kein tierisches Eiweiß. Abends früh essen.",
+   mittag:{t:"Rote-Beete-Salat mit Apfel", kcal:"~800 kcal", z:"75 g gekochte rote Beete · ~20 g Apfel geraspelt · Kopfsalat &amp; Rucola · Gurke · 1 kleine Karotte · 30 g Pekannüsse · 1 EL Kürbiskerne · grüne Oliven · gedünstete Zucchini (~65 g)",
+     s:["Rote Beete in Scheiben oder Würfel schneiden, Apfel fein raspeln.","Dressing aus 2 EL Olivenöl, Zitrone oder Apfelessig, Salz, Pfeffer und Schnittlauch anrühren.","Mit Blattsalat, Gurke und Karotte mischen.","Nüsse, Kürbiskerne und Oliven daraufgeben.","Zucchini separat mit 1 EL Olivenöl und Thymian dünsten, warm dazu servieren."]},
+   abend:{t:"Gemüsesuppe Zucchini-Karotte-Fenchel", kcal:"~500 kcal", z:"Zucchini · Karotte · Fenchel · Gemüsebrühe · 2 EL Olivenöl · Petersilie · Muskat · 25 g Macadamia",
+     s:["Gemüse in Gemüsebrühe weich kochen.","Fein pürieren, 2 EL Olivenöl einrühren.","Mit Petersilie und einer Prise Muskat abschmecken.","Macadamianüsse dazu."]},
+   note:{bilgen:"Du bist heute in Stuttgart — nutz die Restaurant-Optionen im Tab „Auswärts“. Der Tagesplan dort ist auf ~1.300 kcal gerechnet.",
+         stephan:"Heute noch Einkauf, Gemüsebrühe und Knoblauchöl vorbereiten sowie die rote Beete vorkochen — das trägt euch durch die ganze Woche. Alkohol und Süßes aus der Sichtweite räumen."},
+   move:"20–30 Min. zügiger Spaziergang — heute geht noch normale Bewegung."},
+
+  {id:"d1", date:"2026-09-03", dow:"Do", dnum:"3.", type:"Fastentag 1",
+   kcal:"~1.100 kcal", ctx:{bilgen:"Stuttgart · Dienstreise", stephan:"Homeoffice"},
+   lede:"Der erste Fastentag fühlt sich meist noch normal an. Hunger kommt in Wellen von 10–20 Minuten und geht von selbst vorbei.",
+   mittag:{t:"Zucchini-Nudeln mit Tomate &amp; Basilikum", kcal:"~700 kcal", z:"Zucchini spiralisiert · reife Tomaten · viel Basilikum · Schnittlauch · Zitronenabrieb · 2 EL Knoblauchöl · 30 g Pinienkerne · 25 g Macadamia · 1/8 Avocado · grüne Oliven",
+     s:["Zucchini spiralisieren, roh lassen oder 2 Minuten in Knoblauchöl schwenken.","Tomaten würfeln und untermischen.","Mit Basilikum, Schnittlauch und Zitronenabrieb würzen.","Pinienkerne, Macadamia, Avocado und Oliven daraufgeben.","Grobes Meersalz und Pfeffer erst kurz vor dem Essen."]},
+   abend:{t:"Karotten-Kürbis-Suppe", kcal:"~400 kcal", z:"Karotten · Hokkaido-Kürbis · Gemüsebrühe · 2 EL Olivenöl · frischer Ingwer · Kurkuma · 10 g Kürbiskerne",
+     s:["Karotten und Kürbis in Gemüsebrühe weich kochen.","Pürieren, 2 EL Olivenöl einrühren.","Mit frischem Ingwer und einer Prise Kurkuma abschmecken.","Kürbiskerne als Topping."]},
+   note:{bilgen:"Zweiter Stuttgart-Tag. Ab heute besser kein Kaffee mehr — sonst kommt der Koffeinentzug ausgerechnet am Wochenende als Kopfschmerz.",
+         stephan:"Zucchini erst am Vorabend spiralisieren und leicht salzen, sonst wässern sie. Dressing getrennt lagern."},
+   flag:"Eine ganze spiralisierte Zucchini liegt über der FODMAP-Grenze von ~65 g. Bei empfindlichem Darm die Hälfte durch Gurken- oder Karottenstreifen ersetzen.",
+   move:"Ab heute nur noch sanfte Bewegung: Spaziergang, leichtes Dehnen. Kein Kraft- oder Intervalltraining."},
+
+  {id:"d2", date:"2026-09-04", dow:"Fr", dnum:"4.", type:"Fastentag 2",
+   kcal:"~750 kcal", ctx:{bilgen:"Büro Glücksteinquartier", stephan:"Homeoffice"},
+   lede:"Erfahrungsgemäß der zäheste Tag. Reizbarkeit, Kopfdruck und wenig Konzentration sind normal — nichts Wichtiges einplanen.",
+   mittag:{t:"Senf-Karotten-Pfanne", kcal:"~480 kcal", z:"200 g Karotten · 2 EL Olivenöl · 1 TL mittelscharfer Senf · 1 TL Senfsamen · Thymian · 20 g Pekannüsse · Oliven · Petersilie · Zitrone · Gurke &amp; Blattsalat",
+     s:["Karotten in Stifte schneiden, in 2 EL Olivenöl bissfest braten.","Senfsamen kurz mitrösten, bis sie springen.","Senf, Thymian und Salz unterrühren.","Pekannüsse und Oliven zugeben, mit Petersilie und Zitrone abschließen.","Gurkenscheiben und Blattsalat dazu."]},
+   abend:{t:"Tomaten-Basilikum-Suppe", kcal:"~270 kcal", z:"reife Tomaten · Gemüsebrühe · 1 EL Olivenöl · viel Basilikum · Schnittlauch · 15 g Pinienkerne",
+     s:["Tomaten mit Gemüsebrühe kurz kochen und pürieren.","1 EL Olivenöl einrühren.","Mit viel Basilikum abschmecken, Schnittlauch und Pinienkerne obenauf."]},
+   note:{bilgen:"Kritischer Nachmittag. Viel Tee, früh Feierabend wenn möglich, kein Feierabendbier. Die Senf-Karotten schmecken auch kalt aus der Dose.",
+         stephan:"Heute nichts Anspruchsvolles einplanen. Die Suppe am Vormittag vorkochen, dann muss abends nichts mehr entschieden werden."},
+   move:"Nur ein kurzer, langsamer Spaziergang. Heute nichts erzwingen."},
+
+  {id:"d3", date:"2026-09-05", dow:"Sa", dnum:"5.", type:"Fastentag 3",
+   kcal:"~750 kcal", ctx:{bilgen:"frei", stephan:"frei"},
+   lede:"Artischocken-Tag. Die Zubereitung dauert und das Essen geht langsam — an einem Fastentag ist das ein Vorteil.",
+   mittag:{t:"Artischocke mit grobem Meersalz", kcal:"~480 kcal", z:"1 frische Artischocke p. P. · 2 EL Olivenöl · Zitrone · grobes Meersalz · Pfeffer · Tomatensalat mit Basilikum · 20 g Macadamia",
+     s:["Stiel abbrechen, Spitzen kürzen.","30–40 Min. in Salzwasser mit einer halben Zitrone kochen, bis sich ein Blatt leicht löst.","Dip aus Olivenöl, Zitronensaft, grobem Meersalz und Pfeffer anrühren — Blatt für Blatt eintauchen.","Das „Heu“ über dem Boden gründlich entfernen, bevor ihr das Herz esst.","Tomatensalat mit Basilikum, Schnittlauch und 1 EL Olivenöl dazu."]},
+   abend:{t:"Zucchini-Spinat-Suppe", kcal:"~270 kcal", z:"Zucchini · Spinat · Gemüsebrühe · 1 EL Olivenöl · Petersilie · 15 g Kürbiskerne · 1 TL geschrotete Leinsamen",
+     s:["Zucchini und Spinat in Brühe weich kochen und pürieren.","1 EL Olivenöl einrühren, mit Petersilie abschmecken.","Kürbiskerne und Leinsamen darüberstreuen."]},
+   note:{bilgen:"Wochenende — die Artischocke in Ruhe zubereiten, danach ein langer, langsamer Spaziergang zu zweit.",
+         stephan:"Wochenende — die Artischocke in Ruhe zubereiten, danach ein langer, langsamer Spaziergang zu zweit."},
+   flag:"Artischocke gehört zu den FODMAP-reichsten Gemüsen überhaupt (Fructane, im Herz konzentriert). Sie steht bewusst an einem freien Tag. Wenn es rumort: für den Empfindlicheren von euch weglassen und stattdessen die Fenchel-Kürbis-Suppe von morgen vorziehen.",
+   move:"Langer, langsamer Spaziergang zu zweit — 45–60 Min., ohne Tempo."},
+
+  {id:"d4", date:"2026-09-06", dow:"So", dnum:"6.", type:"Fastentag 4",
+   kcal:"~750 kcal", ctx:{bilgen:"frei", stephan:"frei"},
+   lede:"Viele beschreiben Tag 4 als überraschend klar und leicht. Der Hunger verschwindet oft ganz — nutzt das für die Vorbereitung der neuen Woche.",
+   mittag:{t:"Brokkoli mit Senfsamen &amp; rote Beete", kcal:"~480 kcal", z:"75 g Brokkoli-Röschen · 2 EL Olivenöl · 1 TL Senfsamen · Zitronenabrieb · grobes Meersalz · 75 g gekochte rote Beete · Schnittlauch · 20 g Pekannüsse",
+     s:["Brokkoli-Röschen 4–5 Min. bissfest dämpfen — nur die Röschen, nicht die Stiele.","In 2 EL Olivenöl mit Senfsamen schwenken, bis diese aufplatzen.","Mit Zitronenabrieb und grobem Meersalz würzen.","Rote Beete in Scheiben mit 1 EL Olivenöl und Schnittlauch dazu.","Pekannüsse obenauf."]},
+   abend:{t:"Fenchel-Kürbis-Suppe", kcal:"~270 kcal", z:"Fenchel · Hokkaido-Kürbis · Gemüsebrühe · 1 EL Olivenöl · 10 g Sonnenblumenkerne",
+     s:["Fenchel und Kürbis in Brühe weich kochen.","Pürieren und 1 EL Olivenöl einrühren.","Sonnenblumenkerne als Topping."]},
+   note:{bilgen:"Heute Vormittag mit Stephan zusammen die Suppen für Montag und Dienstag vorkochen und die Zucchini für Montag vorbereiten.",
+         stephan:"Meal-Prep-Vormittag: Suppen für Montag und Dienstag vorkochen, Zucchini spiralisieren, Gemüse für die Arbeitstage schneiden."},
+   flag:"Brokkoli-Röschen sind bis 75 g pro Portion FODMAP-unproblematisch, die Stiele dagegen nicht — die weglassen oder für die Brühe verwenden.",
+   move:"Leichtes Yoga oder Dehnen, dazu ein Spaziergang. Der Tag fühlt sich oft energiereich an — trotzdem nicht zu Sport verleiten lassen."},
+
+  {id:"d5", date:"2026-09-07", dow:"Mo", dnum:"7.", type:"Fastentag 5",
+   kcal:"~750 kcal", ctx:{bilgen:"Büro Glücksteinquartier", stephan:"Homeoffice"},
+   lede:"Letzter Fastentag. Ab morgen wird aufgebaut — das trägt durch den Tag. Nicht der Versuchung nachgeben, „weil es eh der letzte Tag ist“ schon abends mehr zu essen.",
+   mittag:{t:"Kalter Zucchini-Nudel-Salat", kcal:"~480 kcal", z:"Zucchini-Nudeln roh · Gurkenstreifen · Cherrytomaten · viel Basilikum &amp; Schnittlauch · 2 EL Olivenöl · Zitrone · grobes Meersalz · 25 g Macadamia · 1/8 Avocado · Oliven",
+     s:["Zucchini-Nudeln roh mit Gurkenstreifen mischen.","Cherrytomaten halbieren und untermischen.","Mit Olivenöl, Zitrone und grobem Meersalz anmachen.","Basilikum, Schnittlauch, Macadamia, Avocado und Oliven daraufgeben."]},
+   abend:{t:"Karotten-Ingwer-Suppe", kcal:"~270 kcal", z:"Karotten · frischer Ingwer · Gemüsebrühe · 1½ EL Olivenöl · 10 g Kürbiskerne · 1 TL geschrotete Leinsamen",
+     s:["Karotten mit Ingwer in Brühe weich kochen.","Pürieren, Olivenöl einrühren.","Kürbiskerne und Leinsamen darüber."]},
+   note:{bilgen:"Ruhig planen, keine langen Meetings. Der Salat lässt sich im Schraubglas mitnehmen: Dressing unten, Gemüse drauf, Kräuter oben — vor dem Essen schütteln.",
+         stephan:"Letzter Fastentag. Morgen früh schon die Frikadellen-Zutaten bereitstellen, dann geht der Aufbautag entspannt los."},
+   move:"Spaziergang in der Mittagspause. Weiterhin keine Belastung."},
+
+  {id:"d6", date:"2026-09-08", dow:"Di", dnum:"8.", type:"Aufbautag 1",
+   kcal:"~1.000 kcal", ctx:{bilgen:"Büro Glücksteinquartier", stephan:"Homeoffice"},
+   lede:"Der wichtigste Teil der Kur. Wer jetzt zu schnell und zu viel isst, verschenkt den Effekt und bekommt Bauchschmerzen. Kleine Portionen, gut gekocht, leicht verdaulich.",
+   mittag:{t:"Zucchini-Quinoa-Frikadellen", kcal:"~620 kcal", z:"1 mittlere Zucchini geraspelt · ~120 g gekochter Quinoa · 2 EL Haferflocken oder Kichererbsenmehl · Petersilie · Schnittlauch · Senf · 2 EL Olivenöl · Senf-Karotten-Pfanne klein · Tomatensalat · 20 g Pekannüsse",
+     s:["Zucchini grob raspeln, salzen, 10 Min. ziehen lassen und gut ausdrücken.","Mit Quinoa, Haferflocken/Kichererbsenmehl, Kräutern, Senf, Salz und Pfeffer vermengen.","Zu 4–6 kleinen Frikadellen formen.","In 2 EL Olivenöl bei mittlerer Hitze goldbraun braten.","Kleine Portion Senf-Karotten und Tomatensalat dazu, Pekannüsse obenauf."]},
+   abend:{t:"Mildes Kürbis-Karotten-Süppchen", kcal:"~330 kcal", z:"Hokkaido-Kürbis · Karotten · Gemüsebrühe · 1 EL Olivenöl · Ingwer · 15 g Kürbiskerne · dazu 1 Kiwi oder Handvoll Heidelbeeren (~50 kcal)",
+     s:["Kürbis und Karotten weich kochen und pürieren.","1 EL Olivenöl und Ingwer einrühren.","Kürbiskerne als Topping.","Als kleinen Nachtisch 1 reife Kiwi oder eine kleine Handvoll Heidelbeeren."]},
+   note:{bilgen:"Heute noch kein Brot, kein Kaffee, kein Alkohol. Wenn Kollegen zum Mittagessen einladen: noch einen Tag warten.",
+         stephan:"Die Frikadellen lassen sich am Vorabend braten und kalt essen — sie halten in der Dose gut zusammen."},
+   move:"Wieder etwas mehr möglich: 30 Min. Spaziergang oder lockeres Radeln. Noch kein Krafttraining."},
+
+  {id:"d7", date:"2026-09-09", dow:"Mi", dnum:"9.", type:"Aufbautag 2",
+   kcal:"~1.300 kcal", ctx:{bilgen:"Büro Glücksteinquartier", stephan:"Homeoffice"},
+   lede:"Jetzt darf das Eiweiß zurück: Kichererbsen und fester Tofu. Ab morgen wieder normal essen — aber bewusst.",
+   mittag:{t:"Kichererbsen-Tomaten-Pfanne", kcal:"~750 kcal", z:"45 g Kichererbsen p. P. gründlich abgespült · Tomaten · Zucchini · Babyspinat · 2 EL Knoblauchöl · ~80 g fester Tofu · 3–4 EL Quinoa · Basilikum · Schnittlauch · 1 TL Sesam · Zitrone · 20 g Macadamia",
+     s:["Kichererbsen gründlich abspülen und abtropfen lassen.","Tomaten, Zucchini und Babyspinat in 2 EL Knoblauchöl kurz schmoren.","Tofu separat anbraten und zugeben.","Quinoa untermischen.","Mit viel Basilikum, Schnittlauch, Sesam und Zitrone abschließen, Macadamia obenauf."]},
+   abend:{t:"Gemüsesuppe Zucchini-Karotte-Kürbis", kcal:"~400 kcal", z:"Zucchini · Karotte · Hokkaido-Kürbis · Gemüsebrühe · 2 EL Olivenöl · 15 g Macadamia oder Kürbiskerne · dazu kleine Handvoll Erdbeeren + 20 g Pekannüsse (~150 kcal)",
+     s:["Gemüse in Brühe weich kochen und pürieren.","2 EL Olivenöl einrühren.","Nüsse oder Kerne dazu.","Als Snack eine kleine Handvoll Erdbeeren mit Pekannüssen."]},
+   note:{bilgen:"Ab morgen zurück zu normalem Essen — aber gebt euch noch zwei bis drei Tage ohne Alkohol, ohne Zucker und ohne große Fleischportionen.",
+         stephan:"Ab morgen zurück zu normalem Essen — aber gebt euch noch zwei bis drei Tage ohne Alkohol, ohne Zucker und ohne große Fleischportionen. Der Effekt hält am längsten, wenn danach nicht sofort alles zurückkommt."},
+   flag:"45 g Kichererbsen ist die FODMAP-Grenze für eine Portion abgespülter Dosen-Kichererbsen — die Galactane wandern beim Spülen weitgehend ins Wasser. Nach fünf Fastentagen ist der Darm empfindlich; bei guter Verträglichkeit könnt ihr die Menge in den Tagen danach steigern.",
+   move:"Zurück zu normaler Bewegung, aber noch kein hartes Training. Ab dem Wochenende wieder alles."}
+];
+
+/* --- Alternativen-Pool ---
+   Diese Varianten stammen aus eurer angekreuzten Ampel-Checkliste und sind damit
+   strenger FODMAP- und low-carb-konform als die Plangerichte. Kalorien sind
+   Grundwerte ohne Nuss-/Ölzugabe — siehe Hinweis unter dem Karussell. */
+const ALT_MITTAG = [
+  {t:"Mediterrane Zucchini-Tomaten-Pfanne", kcal:"~520 kcal",
+   z:"2 Zucchini · 4 Tomaten · Basilikum · Oregano · 3 EL Olivenöl · Zitrone · 2 EL Macadamia · Chili",
+   s:["Zucchini in Scheiben schneiden, in 2 EL Olivenöl 5–6 Min. anbraten.","Tomaten grob würfeln, zugeben, mit Oregano würzen, 3–4 Min. mitschmoren.","Vom Herd nehmen, mit Zitronensaft, restlichem Olivenöl, Chili und Basilikum abschmecken.","Mit gehackten Macadamianüssen bestreut servieren."]},
+  {t:"Fenchel-Radieschen-Salat mit Kürbiskernen", kcal:"~450 kcal",
+   z:"1 Fenchelknolle · 1 Bund Radieschen · 100 g Feldsalat · Petersilie · 3 EL Olivenöl · Zitrone · 2 EL Kürbiskerne · 2 TL Flohsamenschalen separat",
+   s:["Fenchel und Radieschen sehr fein hobeln.","Mit Feldsalat und gehackter Petersilie mischen.","Dressing aus Olivenöl und Zitronensaft unterheben.","Kürbiskerne trocken anrösten und darüberstreuen.","Flohsamenschalen separat mit einem großen Glas Wasser dazu."]},
+  {t:"Warmer Rote-Bete-Karotten-Teller", kcal:"~490 kcal",
+   z:"2 Rote Bete · 3 Karotten · Zimt · Thymian · 3 EL Olivenöl · 2 TL MCT-Öl · 2 EL Mandeln",
+   s:["Rote Bete und Karotten schälen, in Spalten schneiden.","Mit 2 EL Olivenöl, Zimt und Thymian im Ofen bei 200 °C ca. 25 Min. garen.","Vom Herd nehmen, MCT-Öl erst jetzt darüberträufeln — nicht miterhitzen.","Mit gerösteten Mandeln bestreut servieren (max. 10 Stück wegen FODMAP)."]},
+  {t:"Auberginen-Staudensellerie-Pfanne", kcal:"~470 kcal",
+   z:"1 Aubergine · 3 Stangen Staudensellerie · Frühlingszwiebel (nur Grün) · Rosmarin · 3 EL Olivenöl · Schnittlauch · 2 EL Sonnenblumenkerne · 1 Msp. Bockshornklee",
+   s:["Aubergine würfeln, in 2 EL Olivenöl 8–10 Min. anbraten, bis sie weich ist.","Staudensellerie und das Grün der Frühlingszwiebel zugeben, 3 Min. mitbraten.","Mit Rosmarin und einer kleinen Prise Bockshornklee würzen.","Mit Schnittlauch und Sonnenblumenkernen bestreut servieren."]},
+  {t:"Gurken-Spinat-Bowl mit Avocado", kcal:"~510 kcal",
+   z:"100 g Babyspinat · 1 Salatgurke · ½ Kopfsalat · 1 Avocado · Zitrone · 3 EL Olivenöl · 2 TL Chiasamen",
+   s:["Spinat, Gurke und Kopfsalat klein schneiden.","Avocado in Scheiben darauflegen (FODMAP-Grenze beachten: ~1/8 pro Portion).","Dressing aus Olivenöl und Zitronensaft darüberträufeln.","Mit Chiasamen bestreuen und sofort servieren."]}
+];
+const ALT_ABEND = [
+  {t:"Klare Fenchel-Sellerie-Suppe", kcal:"~180 kcal",
+   z:"1 Fenchelknolle · 3 Stangen Staudensellerie · 700 ml Gemüsebrühe · Petersilie · 1 EL Olivenöl",
+   s:["Fenchel und Sellerie klein schneiden.","In der Brühe 15 Min. köcheln, bis das Gemüse weich ist.","Mit Petersilie und einem Schuss Olivenöl servieren."]},
+  {t:"Tomaten-Zucchini-Suppe mit Basilikum", kcal:"~220 kcal",
+   z:"4 Tomaten · 1 Zucchini · 600 ml Gemüsebrühe · Basilikum · 1 EL Olivenöl · 1 EL Chiasamen",
+   s:["Tomaten und Zucchini würfeln, in der Brühe 15 Min. weich kochen.","Fein pürieren.","Mit Basilikum, Olivenöl und Chiasamen zum Andicken abschmecken."]},
+  {t:"Rote-Bete-Karotten-Suppe mit Zimt", kcal:"~230 kcal",
+   z:"2 Rote Bete · 2 Karotten · 700 ml Gemüsebrühe · ½ TL Zimt · 1 EL Olivenöl",
+   s:["Gemüse schälen, würfeln, in der Brühe 20 Min. weich kochen.","Fein pürieren.","Mit einer Prise Zimt und einem Schuss Olivenöl abrunden."]},
+  {t:"Spinat-Gurken-Kaltschale", kcal:"~240 kcal",
+   z:"150 g Spinat · 1 Salatgurke · Zitrone · 2 EL Olivenöl · Schnittlauch · 400 ml kalte Brühe",
+   s:["Alle Zutaten grob schneiden.","Im Mixer fein pürieren, kalt stellen oder direkt servieren.","Mit Schnittlauch garnieren."]},
+  {t:"Auberginen-Tomaten-Suppe mit Fenchelsamen", kcal:"~250 kcal",
+   z:"1 Aubergine · 4 Tomaten · 700 ml Gemüsebrühe · Oregano · 1 TL Fenchelsamen · 1 EL Olivenöl",
+   s:["Aubergine würfeln, in Olivenöl kurz anrösten.","Mit Tomaten und Brühe aufgießen, 15 Min. köcheln.","Mit Oregano und angerösteten Fenchelsamen würzen."]}
+];
+
+/* --- Stuttgart (nur Bilgen, Tag 0 & 1) --- */
+const STUTTGART = {
+  intro:"Du bist heute und morgen in Stuttgart. Alle Adressen liegen in Laufnähe zum Moxy Stuttgart Feuerbach (Steiermärker Str. 2).",
+  places:[
+    {name:"Min Min Feuerbach", meta:"Wiener Platz 1 · +49 711 90700800 · tgl. 9:00–21:00", walk:"≈3 Gehmin. (200 m)",
+     btn:{label:"Bei Uber Eats bestellen", url:"https://www.ubereats.com/de/store/min-min-feuerbach/KjHQD8SzXHmXgKzTQTVJ5g"},
+     btn2:{label:"Website", url:"https://minmin-restaurant.de/"},
+     dishes:[
+       {nm:"My Own Bowl", eur:"15,90 €", kc:"~380 kcal", ds:"Eigene Bowl, bis zu 5 Toppings. Basis wählbar: Sushi-Reis &amp; Salat-Mix / nur Sushi-Reis / nur Salat-Mix.",
+        how:"Basis <b>„nur Salat-Mix“</b> — das ist der entscheidende Klick, spart ~250 kcal und die Kohlenhydrate. Toppings: Avocado, Cherrytomaten, Gurke, Rucola, Ingwer. Kein Edamame (FODMAP + Protein), keine Mango (Zucker). Sesam-Soja-Dip separat, nur halb verwenden."},
+       {nm:"Vegan Bowl", eur:"13,90 €", kc:"~420 kcal", ds:"Avocado, Gurke, Radieschen, Kimchi, geröstete Seealgen, Wasabi-Nüsse",
+        how:"Passt fast unverändert. Wasabi-Nüsse weglassen spart ~80 kcal. Falls Reis mitkommt: „ohne Reis, dafür mehr Salat“ angeben."},
+       {nm:"Tom Yum", eur:"10,90 €", kc:"~120 kcal", ds:"Gemüsesuppe, Zitronengras, Koriander",
+        how:"Ideal als Abendmahlzeit — genau die leichte Gemüsesuppe, die der Plan vorsieht. Ohne Nudeleinlage bestellen."},
+       {nm:"Wakame Salad", eur:"5,90 €", kc:"~110 kcal", ds:"Algensalat mit Sesam",
+        how:"Guter kleiner Zusatz, wenn eine Bowl allein zu wenig ist."},
+       {nm:"Gemüsewok", eur:"13,90 €", kc:"~350 kcal", ds:"Buntes Gemüse frisch im Wok gebraten",
+        how:"Ausdrücklich <b>ohne Reisbeilage</b> und ohne Zwiebel/Knoblauch bestellen."}
+     ]},
+    {name:"Lê Nguyen — Vietnamesisch", meta:"Fahrionstraße 7 · +49 711 8560470 · Mo–Fr 11:30–14:30 &amp; 17:30–22 Uhr · auch zum Abholen", walk:"≈9 Gehmin. (700 m)",
+     btn2:{label:"Speisekarte ansehen", url:"https://www.le-feuerbach.de/speisekarte-le-feuerbach/"},
+     dishes:[
+       {nm:"Nr. 114 · Gỏi Đậu Hủ (Tofu-Salat)", eur:"5,00 €", kc:"~200 kcal", ds:"Tofu-Salat mit Rettich, Karotte, Chilisauce, Erdnüssen und Kräutern",
+        how:"Nach Nummer 114 fragen. Passt fast perfekt — bitten, die Chilisauce sparsam zu dosieren (enthält meist Zucker). Preis-Leistung unschlagbar."},
+       {nm:"Nr. 111 · Canh chua chay", eur:"3,90 €", kc:"~130 kcal", ds:"Pikante vegetarische süßsaure Suppe mit Tofu, Ananas, Sojasprossen, Tomaten und Koriander",
+        how:"Perfekte Abendsuppe. Um „wenig Ananas“ bitten, dann ist auch der Zuckeranteil kein Thema."},
+       {nm:"Nr. 123 · Đậu Hủ Càry", eur:"12,90 €", kc:"~450 kcal", ds:"Curry im Tontopf mit Tofu, Zitronengras und Gemüse in Kokosmilch-Curry-Sauce",
+        how:"Ausdrücklich <b>ohne Reis</b> bestellen (spart ~200 kcal). Sättigt gut durch das Kokosfett — das passt zur FMD-Logik."}
+     ]},
+    {name:"Balance Bowls", meta:"Stuttgarter Str. 37 · +49 711 33622373 · tgl. 10:30–21:00 · liefert selbst", walk:"≈7 Gehmin. (570 m)",
+     btn:{label:"Zur Bestellseite", url:"https://balance-bowls.de/"},
+     unverified:"Die Speisekarte ist auf der Website erst nach Adresseingabe einsehbar — konkrete Gerichtsnamen und Preise konnte ich deshalb nicht verifizieren. Beim Bestellen gilt: veganen Bowl wählen, Reis-/Nudelanteil reduzieren lassen, Dressing separat, ohne Zwiebel/Knoblauch. Grobe Orientierung: ~400–500 kcal.",
+     dishes:[]}
+  ],
+  plans:{
+    d0:{title:"Tag 0 · Mittwoch — Ziel ~1.300 kcal", total:"ergibt ca. 1.310 kcal · ca. 24,80 €", items:[
+      "<b>Mittag:</b> Min Min „My Own Bowl“ mit Salat-Basis (~380 kcal) + Wakame Salad (~110 kcal) + ca. 40 g Macadamia aus der eigenen Dose (~290 kcal) → <b>~780 kcal</b>",
+      "<b>Abend:</b> Lê Nguyen Nr. 111 Canh chua chay (~130 kcal) + Nr. 114 Tofu-Salat (~200 kcal) + 2 EL Olivenöl falls verfügbar (~180 kcal) → <b>~510 kcal</b>"]},
+    d1:{title:"Tag 1 · Donnerstag — Ziel ~1.100 kcal", total:"ergibt ca. 1.100 kcal · ca. 19,80 €", items:[
+      "<b>Mittag:</b> Min Min Vegan Bowl (~420 kcal) + 30 g Macadamia aus der eigenen Dose (~215 kcal) + Olivenöl falls möglich → <b>~700 kcal</b>",
+      "<b>Abend:</b> Min Min Tom Yum (~120 kcal) + Wakame Salad (~110 kcal) + 25 g Kürbiskerne (~140 kcal) → <b>~400 kcal</b>"]}
+  },
+  trick:"Restaurant-Gerichte sind für die FMD-Logik fast immer <em>zu fettarm</em> und <em>zu stärkereich</em>. Deshalb: kleine Dose mit abgewogenen Macadamia- oder Pekannüssen im Hotelzimmer bereithalten und damit die Kalorien auffüllen, statt Reis oder Nudeln mitzuessen. Die Nüsse tragen die Kalorien, ohne den Fastenstoffwechsel zu unterbrechen."
+};
+
+/* --- Mannheim (Bilgen, Bürotage) --- */
+const MANNHEIM = {
+  intro:"An deinen Bürotagen im Glücksteinquartier. Grundsätzlich ist Mitnehmen besser — aber falls es mal nicht klappt:",
+  places:[
+    {name:"dean&david Glücksteinallee", meta:"Glücksteinallee 47 · direkt im Quartier · Mo–Fr 11:00–20:00", walk:"im Quartier",
+     btn2:{label:"Website", url:"https://deananddavid.com/glueckstein-mannheim/"},
+     dishes:[{nm:"Eigene Bowl, Blattsalat-Basis", eur:"ca. 9–13 €", kc:"~400 kcal", ds:"Blattsalat, Gurke, Tomate, Avocado",
+       how:"Kein Reis, keine Nudeln, kein Couscous. Olivenöl-Zitronen-Dressing statt cremiger Sauce, ohne Käse, Zwiebeln aktiv weglassen lassen."}]},
+    {name:"Glückstein Restaurant", meta:"Lindenhofstraße 62 · ≈2 Gehminuten · Mo–Fr ab 11:30", walk:"≈2 Gehmin.",
+     dishes:[{nm:"Pflanzliches Tagesgericht + Beilagensalat", eur:"mittleres Niveau", kc:"~450–600 kcal", ds:"wechselt täglich",
+       how:"Ohne Brot/Nudeln/Reis bestellen bzw. stehen lassen, wo möglich ohne Zwiebel/Knoblauch, Dressing separat erfragen statt Fertigsauce."}]}
+  ],
+  trick:"Das Büro-Kit macht den Unterschied: Thermosbecher für die Suppe, Schraubglas für Salat (Dressing unten, Gemüse drauf, Kräuter oben), kleine Dose mit <em>abgewogener</em> Nussportion — aus der Tüte wird schnell das Doppelte."
+};
+
+/* --- Tagesablauf --- */
+function timeline(day, person){
+  const isFast = day.type.startsWith("Fastentag");
+  const isPrep = day.type === "Vorbereitung";
+  const kaffee = (person==="bilgen" && isPrep);
+  const rows = [
+    {t:"6:30", h:"Aufstehen", d:"Langsam aufstehen — Fasten senkt den Blutdruck. Erst ein großes Glas zimmerwarmes Wasser mit einer Prise Salz.", cls:""},
+    {t:"6:45", h:"5 Min. Bauchatmung", d:"4 Sekunden einatmen, 7 halten, 8 ausatmen. Bringt den Körper aus dem Stress- in den Verdauungsmodus.", cls:"move"},
+    {t:"7:00", h:"Nur Wasser &amp; Kräutertee", d:(kaffee?"Heute noch eine Tasse schwarzer Kaffee erlaubt. ":"")+"Bis etwa 9:30 nichts essen. Pfefferminz-, Fenchel-Anis-Kümmel- oder Chagatee frei.", cls:""},
+    {t:"10:00", h:"Kurz raus", d:"10–15 Min. an die frische Luft. Tageslicht stabilisiert den Biorhythmus während der Fastentage.", cls:"move"},
+    {t:"12:00", h:"Trinkpause", d:"20–30 Min. nichts trinken — bereitet den Magen auf das Essen vor.", cls:"pause"},
+    {t:"12:30", h:"Mittag — Hauptmahlzeit", d:"In Ruhe, jeden Bissen 15–20 Mal kauen. Nicht am Schreibtisch nebenbei.", cls:"meal"},
+    {t:"13:15", h:"Trink- &amp; Esspause", d:"1 Stunde weder essen noch trinken, damit die Verdauung ungestört arbeitet.", cls:"pause"},
+    {t:"14:15", h:"Wieder trinken", d:"Wasser und Kräutertee, über den Nachmittag verteilt. Ziel: 2–2,5 Liter am Tag.", cls:""},
+    {t:"15:00", h:"Bewegung", d:day.move, cls:"move"},
+    {t:"17:30", h:"Abend — leichte Suppe", d:"Zweite, kleinere Mahlzeit. Idealerweise komplett vor 19:30 Uhr.", cls:"meal"},
+    {t:"18:15", h:"Trinkpause", d:"Nochmal 1 Stunde nichts trinken.", cls:"pause"},
+    {t:"19:15", h:"Letzte Getränke", d:"Wasser oder Kräutertee — aber ab 2 Stunden vor dem Schlafen nichts mehr.", cls:""},
+    {t:"20:30", h:"Runterfahren", d:isFast?"Wärmflasche, warme Kleidung — Frieren ist an Fastentagen normal. Bildschirm früh aus.":"Ruhiger Ausklang, Bildschirm früh aus.", cls:"move"},
+    {t:"22:30", h:"Schlafen", d:"Früh ins Bett. Ein Großteil der Zellerneuerung und Autophagie läuft nachts ab.", cls:""}
+  ];
+  return rows;
+}
+
+/* --- Referenz-Inhalte --- */
+const REFERENCE = `
+<details class="acc">
+  <summary>⚠ Sicherheit — kurz gegenlesen</summary>
+  <div class="body">
+    <p><b>Fasten senkt den Blutdruck.</b> Steht langsam auf, besonders morgens und nach dem Sitzen. Eine Prise Salz ins Wasser stützt den Kreislauf.</p>
+    <p><b>Abbrechen und ärztlich abklären</b> bei anhaltendem Schwindel, Herzrasen, Atemnot, starker Schwäche, Verwirrtheit oder Sehstörungen. Ein Abbruch ist kein Scheitern — zieht dann einfach das sanfte Aufbauprogramm der letzten zwei Tage vor.</p>
+    <p><b>Nicht machen</b> bei Untergewicht (BMI unter 19), Schwangerschaft oder Stillzeit, akutem Infekt, kürzlicher OP oder einer Essstörung in der Vorgeschichte.</p>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>So funktioniert die Kur</summary>
+  <div class="body">
+    <p>Beim Scheinfasten wird über wenige Tage so wenig und so fasten-ähnlich gegessen, dass der Körper in den Fastenstoffwechsel umschaltet — Zellreinigung (Autophagie) und Fettverbrennung springen an —, ohne dass komplett gehungert wird.</p>
+    <p>Die drei Hebel: <b>wenig Kalorien</b>, <b>sehr wenig Eiweiß</b>, <b>fast keine schnellen Kohlenhydrate</b>. Fett darf dagegen reichlich sein — es hält satt, ohne den Fasteneffekt zu stören. Deshalb sind Olivenöl, Oliven, Macadamia, Pekannüsse und Pinienkerne hier die Kalorienträger, und deshalb kommen Quinoa und Kichererbsen erst an den Aufbautagen.</p>
+    <h4>Portionsgrößen für euch beide</h4>
+    <p>Die Mengen sind Richtwerte <b>pro Person</b>. Stephan (1,84 m) bleibt am oberen Ende und nimmt bei Nüssen und Öl die volle Menge. Bilgen (1,60 m) reduziert Nüsse und Öl um etwa ein Viertel, lässt das Gemüse aber gleich.</p>
+    <p>Wichtiger als die exakte Zahl: <b>keiner von euch hungert sich in die Erschöpfung.</b> Lieber 100 kcal mehr als ein abgebrochener Tag.</p>
+    <h4>Trinken</h4>
+    <p><b>2–2,5 Liter</b> stilles Wasser und milde Kräutertees über den Tag. Prise Salz oder Spritzer Zitrone stützt den Kreislauf.</p>
+    <p><b>Kaffee (nur Bilgen):</b> am Vorbereitungstag noch eine Tasse morgens, ab Fastentag 1 weglassen — sonst kommt der Koffeinentzug ausgerechnet am Wochenende als Kopfschmerz.</p>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>Einkaufsliste — 2 Personen, 8 Tage</summary>
+  <div class="body">
+    <p class="secnote">Frisches Blattgemüse, Salat und Kräuter in zwei Etappen kaufen (jetzt und Samstag), sonst welkt alles. Artischocken erst Freitag oder Samstag früh kaufen — sie sollen fest sein und beim Drücken quietschen.</p>
+    <h4>Gemüse &amp; Kräuter</h4>
+    <ul>
+      <li>Zucchini (10–12 — die Nudeln brauchen viel)</li>
+      <li>Karotten (3 Bund), Rote Beete (4–5 Knollen oder vorgegart vakuumiert)</li>
+      <li>1 Apfel (nur für den Aroma-Anteil), Frische Artischocken (2)</li>
+      <li>Brokkoli (1 Kopf), Hokkaido-Kürbis (1 mittlerer), Fenchel (2–3 Knollen)</li>
+      <li>Babyspinat (4 Beutel), Rucola (2), Kopfsalat (2), Gurken (5–6)</li>
+      <li>Reife Tomaten (ca. 2 kg) + Cherrytomaten (2 Schalen)</li>
+      <li>Ingwer (1 große Knolle)</li>
+      <li>Basilikum (2 Töpfe), Schnittlauch (2 Bund), Petersilie, Rosmarin, Thymian, Oregano</li>
+    </ul>
+    <h4>Nüsse, Samen, Fette</h4>
+    <ul>
+      <li>Macadamianüsse (250 g), Pekannüsse (250 g), Pinienkerne (150 g)</li>
+      <li>Kürbiskerne (150 g), Sonnenblumenkerne (100 g), Leinsamen, Sesam</li>
+      <li>Olivenöl extra vergine (min. 1 Liter — es geht viel drauf)</li>
+      <li>Knoblauchöl (selbst gemacht oder gekauft)</li>
+      <li>Grüne Oliven entsteint (2 Gläser), Avocados (3–4, unterschiedlich reif kaufen)</li>
+      <li>MCT-Öl, Flohsamenschalen, Chiasamen (aus eurer Auswahl)</li>
+    </ul>
+    <h4>Für die Aufbautage</h4>
+    <ul>
+      <li>Quinoa (250 g), Kichererbsen aus der Dose (1 Dose reicht), fester Tofu (1 Packung)</li>
+      <li>Haferflocken oder Kichererbsenmehl (Bindung für die Frikadellen)</li>
+      <li>Kiwi, Erdbeeren, Heidelbeeren, Himbeeren</li>
+    </ul>
+    <h4>Getränke &amp; Vorrat</h4>
+    <ul>
+      <li>Stilles Wasser (ca. 40 l für 8 Tage zu zweit)</li>
+      <li>Kräutertees: Pfefferminze, Fenchel-Anis-Kümmel, Chaga, Ingwer</li>
+      <li>Gemüsebrühe zwiebel- und knoblauchfrei (oder selbst gekocht)</li>
+      <li>Zitronen (8–10), mittelscharfer Senf, gelbe Senfsamen, Fenchelsamen</li>
+      <li><b>Grobes Meersalz</b>, feines Salz, Pfeffer, Muskat, Kurkuma, Bockshornklee</li>
+    </ul>
+    <p><b>Nicht auf der Liste:</b> Paprika und Walnüsse — beides ist komplett aus dem Plan raus.</p>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>FODMAP &amp; Verträglichkeit</summary>
+  <div class="body">
+    <ul>
+      <li><b>Knoblauchöl statt Knoblauch:</b> Olivenöl kurz mit angedrückten Knoblauchzehen erwärmen (nicht braten), abkühlen lassen, Zehen entfernen. Das Aroma geht ins Öl, die Fructane bleiben zurück. Gekühlt maximal eine Woche verwenden. Frische Zwiebeln und Knoblauch bleiben weg, das Grüne von Lauch und Schnittlauch ist erlaubt.</li>
+      <li><b>Portionsgrenzen:</b> Zucchini ~65 g, Brokkoli-Röschen ~75 g, rote Beete ~75 g gekocht, Apfel ~20 g, Kichererbsen ~45 g abgespült, Avocado ~1/8 (~30 g), Kürbis ~75 g pro Mahlzeit.</li>
+      <li><b>Die drei Wackelkandidaten:</b> Artischocke (hoch), Apfel (hoch) und Kichererbsen (moderat) stehen bewusst im Plan — jeweils in kleiner Menge und an Tagen, an denen ihr zu Hause seid. Wer empfindlicher ist, lässt sie weg; der Plan trägt auch ohne sie.</li>
+      <li><b>Bewusst weggelassen:</b> Zwiebel, Knoblauch, Spargel, Pilze, alle weiteren Kohlgemüse außer Brokkoli-Röschen — und auf euren Wunsch Paprika und Walnüsse.</li>
+      <li><b>Nüsse:</b> Macadamia, Pekan und Pinienkerne sind FODMAP-arm und tragen die Kalorien. Cashew und Pistazie meiden, Mandeln nur wenige (max. 10).</li>
+      <li><b>Kohlenhydratarm:</b> Quinoa und Kichererbsen erst ab Aufbautag 1 bzw. 2 — vorher würden Stärke und Eiweiß den Fastenstoffwechsel unterbrechen.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>Was euch erwartet — und was hilft</summary>
+  <div class="body">
+    <ul>
+      <li><b>Tag 1–2:</b> Hunger in Wellen, Gedanken kreisen ums Essen. Eine Hungerwelle dauert 10–20 Minuten und geht von selbst vorbei — eine Tasse warmer Tee überbrückt sie zuverlässig.</li>
+      <li><b>Tag 2–3:</b> Kopfschmerzen (meist Koffeinentzug), Frieren, dünne Nerven, schlechterer Schlaf. Wärmflasche, warme Kleidung, früh ins Bett.</li>
+      <li><b>Ab Tag 4:</b> häufig ein deutlicher Umschwung — der Hunger verschwindet, viele beschreiben Klarheit und gute Laune. Nicht darauf verlassen, aber es kommt oft.</li>
+      <li><b>Mundgeruch und belegte Zunge</b> sind normal (Ketose). Zunge morgens abschaben, viel trinken.</li>
+      <li><b>Rote Beete färbt</b> Urin und Stuhl rötlich — harmlos und kein Blut, aber gut, es vorher zu wissen.</li>
+      <li><b>Zu zweit gilt:</b> nicht gegenseitig hochschaukeln, wenn einer schlecht drauf ist. Kurz sagen „ich bin gerade nur hungrig, nicht sauer auf dich“ nimmt erstaunlich viel Druck raus.</li>
+      <li><b>Danach:</b> Michalsen empfiehlt, eine solche Kur zwei- bis viermal im Jahr zu wiederholen. Der nächste sinnvolle Termin wäre Ende November oder im Januar.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>Kur neben der Arbeit</summary>
+  <div class="body">
+    <h4>Meal-Prep: zwei Kochabende reichen</h4>
+    <p><b>Heute Abend (Mi 2.9.):</b> Gemüsebrühe ansetzen (ohne Zwiebel/Knoblauch), Knoblauchöl herstellen, rote Beete mitkochen — hält gekühlt 4–5 Tage. Einkauf erledigen.</p>
+    <p><b>Sonntagvormittag (6.9.):</b> Suppen für Montag und Dienstag vorkochen, Zucchini spiralisieren, Gemüse für die Arbeitstage vorbereiten.</p>
+    <p>Suppen halten gekühlt 3 Tage. Zucchini-Nudeln erst am Vorabend spiralisieren und leicht salzen, sonst wässern sie. Dressing getrennt lagern.</p>
+    <h4>Das Büro-Kit</h4>
+    <ul>
+      <li><b>Thermosbecher</b> (0,5 l) für die Suppe — hält warm bis zum Nachmittag.</li>
+      <li><b>Schraubglas</b> für Zucchini-Nudeln und Tomatensalat: Dressing unten, Gemüse drauf, Kräuter oben. Vor dem Essen schütteln.</li>
+      <li><b>Kleine Dose</b> mit der abgewogenen Nussportion — aus der Tüte wird schnell das Doppelte.</li>
+      <li><b>1,5-Liter-Flasche</b> auf dem Schreibtisch mit Zielmarkierungen.</li>
+      <li><b>Teebeutel</b> in der Schublade — die Teepause ersetzt die Kaffeepause und überbrückt Hungerwellen.</li>
+    </ul>
+    <h4>Termine und Kollegen</h4>
+    <ul>
+      <li><b>Diese Woche keine Geschäftsessen, kein Feierabendbier, keinen Restaurantbesuch</b> einplanen. Falls schon etwas steht: absagen ist einfacher als widerstehen.</li>
+      <li>Anspruchsvolle Aufgaben auf Donnerstag und Montag legen, Freitag eher Routine.</li>
+      <li>Den Kollegen kurz Bescheid sagen, dass ihr fastet. Erspart Erklärungen beim Kuchen im Büro.</li>
+      <li><b>Ihr macht das zu zweit</b> — das ist der größte Vorteil. Abends kurz austauschen, wie der Tag war.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>⚠ Abgleich mit eurer Lebensmittel-Auswahl</summary>
+  <div class="body">
+    <p>Dieser 8-Tage-Plan entstand aus euren <em>Wunschgerichten</em> (Artischocke, Zucchini-Nudeln, Senf-Karotten, Kichererbsen …). Die Ampel-Checkliste, die ihr später ausgefüllt habt, ist damit nicht deckungsgleich. Diese Zutaten stehen im Plan, waren auf der Checkliste aber <b>nicht angekreuzt</b>:</p>
+    <table class="tbl">
+      <tr><th>Im Plan</th><th>Wenn ihr es ersetzen wollt</th></tr>
+      <tr><td>Grüne Oliven</td><td>Mehr Olivenöl + Macadamia (gleiche Kalorienträger)</td></tr>
+      <tr><td>Pekannüsse, Pinienkerne</td><td>Macadamia, Kürbis- oder Sonnenblumenkerne</td></tr>
+      <tr><td>Hokkaido-Kürbis</td><td>Karotte oder Fenchel in der Suppe</td></tr>
+      <tr><td>Rucola</td><td>Feldsalat oder Kopfsalat</td></tr>
+      <tr><td>Brokkoli, Apfel</td><td>Fenchel bzw. ein paar Himbeeren</td></tr>
+      <tr><td>Senf &amp; Senfsamen</td><td>Fenchelsamen + Bockshornklee für die Würze</td></tr>
+      <tr><td>Tofu, Kichererbsen (nur Aufbautage)</td><td>Quinoa allein — dann aber weniger Eiweiß beim Refeed</td></tr>
+    </table>
+    <p>Beides funktioniert. Der Plan wie er steht ist stimmiger aufgebaut; die Checkliste ist enger an dem, was ihr wirklich gern esst. <b>Entscheidet bewusst</b> — nicht aus Versehen die Hälfte weglassen und dann zu wenig Kalorien haben.</p>
+  </div>
+</details>
+`;
+
+/* ============ RENDER ============ */
+let state = {person:"bilgen", day:null, mode:"tag"};
+const STORAGE_KEY = "scheinfasten-v3";
+
+function todayId(){
+  const n = new Date();
+  const s = n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");
+  const d = DAYS.find(x=>x.date===s);
+  return d ? d.id : null;
+}
+
+function curDay(){ return DAYS.find(d=>d.id===state.day) || DAYS[0]; }
+
+function modesFor(day, person){
+  const m = [{id:"tag", label:"📋 Tagesablauf"}, {id:"kochen", label:"🍳 Selbst kochen"}];
+  const stuttgart = (person==="bilgen" && (day.id==="d0"||day.id==="d1"));
+  const office = (person==="bilgen" && day.ctx.bilgen.indexOf("Büro")===0);
+  if(stuttgart) m.push({id:"aus", label:"🍽️ Auswärts in Stuttgart"});
+  else if(office) m.push({id:"aus", label:"🍽️ Auswärts in Mannheim"});
+  m.push({id:"tipps", label:"💡 Tipps heute"});
+  return m;
+}
+
+function renderStrip(){
+  const strip = document.getElementById("dayStrip");
+  const tid = todayId();
+  strip.innerHTML = "";
+  DAYS.forEach(d=>{
+    const b = document.createElement("button");
+    b.className = "daycard" + (d.id===state.day?" active":"") + (d.id===tid?" today":"");
+    b.innerHTML = '<div class="dow">'+d.dow+'</div><div class="dnum">'+d.dnum+'9.</div><div class="dtype">'+d.type+'</div>';
+    b.addEventListener("click", ()=>{ state.day=d.id; save(); renderAll(); });
+    strip.appendChild(b);
+  });
+  const act = strip.querySelector(".daycard.active");
+  if(act) act.scrollIntoView({block:"nearest", inline:"center"});
+}
+
+function renderHead(){
+  const d = curDay();
+  const tid = todayId();
+  const ctx = d.ctx[state.person];
+  document.getElementById("dayHead").innerHTML =
+    '<div class="dayhead">'
+    + '<div class="kicker">'+d.dow+', '+d.dnum+' September · '+d.type+'</div>'
+    + '<h1>'+(d.mittag ? d.mittag.t : d.type)+'</h1>'
+    + '<div class="badges">'
+      + (d.id===tid?'<span class="badge today">Heute</span>':'')
+      + '<span class="badge kcal">'+d.kcal+'</span>'
+      + '<span class="badge ctx">'+PEOPLE[state.person].short+' · '+ctx+'</span>'
+    + '</div>'
+    + '<p class="lede">'+d.lede+'</p>'
+    + '</div>';
+}
+
+function renderModes(){
+  const el = document.getElementById("modeTabs");
+  const modes = modesFor(curDay(), state.person);
+  if(!modes.find(m=>m.id===state.mode)) state.mode = "tag";
+  el.innerHTML = "";
+  modes.forEach(m=>{
+    const b = document.createElement("button");
+    b.className = m.id===state.mode ? "active":"";
+    b.textContent = m.label;
+    b.addEventListener("click", ()=>{ state.mode=m.id; save(); renderModes(); renderContent(); });
+    el.appendChild(b);
+  });
+}
+
+function recipeCard(r, tagHtml){
+  return '<div class="card">'
+    + tagHtml
+    + '<h3>'+r.t+'<span class="kcaltag">'+r.kcal+'</span></h3>'
+    + '<p class="zut"><b>Pro Person:</b> '+r.z+'</p>'
+    + '<ol style="margin:0;padding-left:18px;font-size:0.85rem;line-height:1.55;">'
+    + r.s.map(x=>'<li>'+x+'</li>').join('') + '</ol></div>';
+}
+
+/* Plangericht + 3 rotierende Alternativen, damit an verschiedenen Tagen
+   nicht immer dieselben drei vorgeschlagen werden. */
+function mealCarousel(key, planMeal, pool, dayIdx, dayKcal){
+  const picks = [];
+  for(let i=0;i<3;i++) picks.push(pool[(dayIdx+i) % pool.length]);
+  const id = "car-"+key+"-"+dayIdx;
+  let h = '<div class="carousel" id="'+id+'">';
+  h += recipeCard(planMeal, '<span class="plantag">Plan des Tages</span>');
+  picks.forEach(p=>{ h += recipeCard(p, '<span class="alttag">Alternative</span>'); });
+  h += '</div>';
+  h += '<div class="dots" id="'+id+'-dots">' + Array(4).fill(0).map((_,i)=>'<span class="'+(i===0?'on':'')+'"></span>').join('') + '</div>';
+  h += '<div class="swipehint">← seitlich wischen für weitere Varianten →</div>';
+  return h;
+}
+
+function wireCarousels(){
+  document.querySelectorAll(".carousel").forEach(car=>{
+    const dots = document.getElementById(car.id+"-dots");
+    if(!dots) return;
+    car.addEventListener("scroll", ()=>{
+      const i = Math.round(car.scrollLeft / (car.scrollWidth / car.children.length));
+      dots.querySelectorAll("span").forEach((s,n)=>s.classList.toggle("on", n===i));
+    }, {passive:true});
+  });
+}
+
+function renderContent(){
+  const d = curDay();
+  const c = document.getElementById("content");
+  let h = "";
+
+  if(state.mode==="tag"){
+    h += '<h2 class="sec">Dein Tag von früh bis spät</h2>';
+    h += '<p class="secnote">Uhrzeiten als Vorschlag — an eure Aufstehzeit anpassen. Entscheidend sind die Abstände, nicht die Uhr.</p>';
+    h += '<div class="tl">';
+    timeline(d, state.person).forEach(r=>{
+      h += '<div class="tlrow '+r.cls+'"><div class="t">'+r.t+'</div><div class="c"><div class="h">'+r.h+'</div><div class="d">'+r.d+'</div></div></div>';
+    });
+    h += '</div>';
+    h += '<div class="callout office"><b>'+PEOPLE[state.person].short+' heute:</b> '+d.note[state.person]+'</div>';
+    if(d.flag) h += '<div class="callout flag"><b>Beachten:</b> '+d.flag+'</div>';
+  }
+
+  else if(state.mode==="kochen"){
+    const dayIdx = DAYS.findIndex(x=>x.id===d.id);
+    h += '<h2 class="sec">Mittag — Hauptmahlzeit</h2>';
+    h += '<p class="secnote">Das Plangericht plus drei Alternativen. Seitlich wischen zum Blättern.</p>';
+    h += mealCarousel("m", d.mittag, ALT_MITTAG, dayIdx, d.kcal);
+    h += '<h2 class="sec">Abend — leichte Mahlzeit</h2>';
+    h += '<p class="secnote">Ebenfalls vier Varianten zur Auswahl.</p>';
+    h += mealCarousel("a", d.abend, ALT_ABEND, dayIdx, d.kcal);
+    h += '<div class="callout neutral">Mengen sind Richtwerte <b>pro Person</b> — für euch beide verdoppeln. Stephan am oberen Ende, Bilgen bei Nüssen und Öl etwa ein Viertel weniger.</div>';
+    h += '<div class="callout warn"><b>Wenn ihr eine Alternative wählt:</b> Die Alternativvarianten stammen aus eurer angekreuzten Checkliste und sind strenger FODMAP- und low-carb-konform als die Plangerichte — dafür liegen sie kalorisch meist niedriger. Gleicht die Differenz zum Tagesziel mit Olivenöl und einer abgewogenen Nussportion aus, nicht mit mehr Gemüse. Faustregel: 1 EL Olivenöl ≈ 90 kcal, 10 g Macadamia ≈ 72 kcal.</div>';
+    if(d.flag) h += '<div class="callout flag"><b>Beachten:</b> '+d.flag+'</div>';
+  }
+
+  else if(state.mode==="aus"){
+    const stuttgart = (d.id==="d0"||d.id==="d1");
+    const src = stuttgart ? STUTTGART : MANNHEIM;
+    h += '<h2 class="sec">'+(stuttgart?"Auswärts essen in Stuttgart":"Auswärts essen in Mannheim")+'</h2>';
+    h += '<p class="secnote">'+src.intro+'</p>';
+    if(stuttgart && src.plans[d.id]){
+      const p = src.plans[d.id];
+      h += '<div class="card" style="border:2px solid var(--green-line);"><h3 style="color:var(--green-text)">'+p.title+'</h3>'
+         + '<p class="zut">'+p.total+'</p><ul>'+p.items.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>';
+    }
+    src.places.forEach(pl=>{
+      h += '<div class="place"><h3>'+pl.name+'</h3><div class="meta">'+pl.meta+'</div>'
+         + '<span class="walk">'+pl.walk+'</span>';
+      if(pl.unverified) h += '<div class="callout neutral" style="margin:9px 0 0;"><b>Hinweis:</b> '+pl.unverified+'</div>';
+      if(pl.dishes.length > 1){
+        h += '<div class="dishscroll">';
+        pl.dishes.forEach(ds=>{
+          h += '<div class="dish"><div class="top"><span class="nm">'+ds.nm+'</span>'
+             + '<span class="pk"><span class="eur">'+ds.eur+'</span><span class="kc">'+ds.kc+'</span></span></div>'
+             + '<div class="ds">'+ds.ds+'</div><div class="how"><b>So bestellen:</b> '+ds.how+'</div></div>';
+        });
+        h += '</div><div class="swipehint" style="margin:2px 0 0;">'+pl.dishes.length+' Gerichte — seitlich wischen</div>';
+      } else {
+        pl.dishes.forEach(ds=>{
+          h += '<div class="dish"><div class="top"><span class="nm">'+ds.nm+'</span>'
+             + '<span class="pk"><span class="eur">'+ds.eur+'</span><span class="kc">'+ds.kc+'</span></span></div>'
+             + '<div class="ds">'+ds.ds+'</div><div class="how"><b>So bestellen:</b> '+ds.how+'</div></div>';
+        });
+      }
+      if(pl.btn) h += '<a class="btn" href="'+pl.btn.url+'" target="_blank" rel="noopener">'+pl.btn.label+'</a>';
+      if(pl.btn2) h += '<a class="btn alt" href="'+pl.btn2.url+'" target="_blank" rel="noopener">'+pl.btn2.label+'</a>';
+      h += '</div>';
+    });
+    h += '<div class="callout warn"><b>Der wichtigste Trick unterwegs:</b> '+src.trick+'</div>';
+  }
+
+  else if(state.mode==="tipps"){
+    h += '<h2 class="sec">Tipps für heute</h2>';
+    h += '<div class="card"><h3>Essen &amp; Verdauung</h3><ul>'
+      + '<li><b>Gut kauen:</b> jeden Bissen 15–20 Mal — entlastet Magen und Bauchspeicheldrüse spürbar.</li>'
+      + '<li>In Ruhe essen, ohne Bildschirm. Das Sättigungssignal braucht seine Zeit.</li>'
+      + '<li>Die Trink- und Esspausen wirklich einhalten — sie sind kein Detail, sondern der Kern des Michalsen-Rhythmus.</li>'
+      + '<li>Flohsamenschalen immer sofort mit einem großen Glas Wasser einnehmen.</li>'
+      + '<li>MCT-Öl nie mitkochen — nur kalt über das fertige Gericht träufeln.</li>'
+      + '</ul></div>';
+    h += '<div class="card"><h3>Atmung &amp; Entspannung</h3><ul>'
+      + '<li><b>4-7-8-Atmung</b> vor dem Mittagessen: 4 Sek. einatmen, 7 halten, 8 ausatmen. Fünf Runden reichen.</li>'
+      + '<li>Bei einer Hungerwelle: aufstehen, ans Fenster, drei tiefe Atemzüge, Tasse Tee. Die Welle dauert 10–20 Minuten.</li>'
+      + '<li>Abends Wärmflasche — Frieren ist an Fastentagen normal und zieht mehr Energie als man denkt.</li>'
+      + '</ul></div>';
+    h += '<div class="card"><h3>Bewegung heute</h3><ul><li>'+curDay().move+'</li>'
+      + '<li>Alle 60–90 Minuten kurz aufstehen und ans Tageslicht.</li>'
+      + '<li>Kein Krafttraining, kein Intervalltraining, keine langen Läufe während der Fastentage.</li>'
+      + '</ul></div>';
+    if(state.person==="bilgen"){
+      h += '<div class="card"><h3>Speziell für Bilgen</h3><ul>'
+        + '<li>Kaffee nur am Vorbereitungstag, morgens und schwarz — nicht in den Trink-/Esspausen.</li>'
+        + '<li>Kräutertee im Thermobecher mitnehmen, dann sind die Pausen unterwegs leichter durchzuhalten.</li>'
+        + '<li>Unterwegs zählt die abgewogene Nussdose mehr als jede Menükarte — sie rettet dir die Kalorienbilanz.</li>'
+        + '</ul></div>';
+    } else {
+      h += '<div class="card"><h3>Speziell für Stephan</h3><ul>'
+        + '<li>Im Homeoffice ist die Versuchung groß, nebenbei zu essen — feste Zeiten am Küchentisch statt am Schreibtisch.</li>'
+        + '<li>Die Suppenzubereitung am Nachmittag als bewusste Pause vom Bildschirm nutzen.</li>'
+        + '<li>Du hast die Küche — du bist der Meal-Prep-Anker für euch beide. Das entlastet Bilgen an den Bürotagen enorm.</li>'
+        + '</ul></div>';
+    }
+  }
+
+  c.innerHTML = h;
+  wireCarousels();
+}
+
+function renderAll(){
+  document.querySelectorAll("#personToggle button").forEach(b=>
+    b.classList.toggle("active", b.dataset.p===state.person));
+  renderStrip(); renderHead(); renderModes(); renderContent();
+}
+
+document.querySelectorAll("#personToggle button").forEach(b=>{
+  b.addEventListener("click", ()=>{ state.person=b.dataset.p; save(); renderAll(); });
+});
+document.getElementById("todayBtn").addEventListener("click", ()=>{
+  const t = todayId();
+  state.day = t || DAYS[0].id;
+  state.mode = "tag";
+  save(); renderAll();
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+document.getElementById("reference").innerHTML = REFERENCE;
+
+function save(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function load(){
+  try{
+    const r = localStorage.getItem(STORAGE_KEY);
+    if(r) state = Object.assign(state, JSON.parse(r));
+  }catch(e){}
+  if(!state.day) state.day = todayId() || DAYS[0].id;
+  renderAll();
+}
+load();
+</script>
+</body>
+</html>
