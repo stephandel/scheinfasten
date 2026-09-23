@@ -73,8 +73,6 @@ body{
   padding-bottom:calc(4.5rem + env(safe-area-inset-bottom));
   overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto;
 }
-/* Mehr Seitenrand bei großer Schrift, damit Text nie an der Kante klebt */
-.container{padding-left:max(1rem, env(safe-area-inset-left));padding-right:max(1rem, env(safe-area-inset-right));}
 @media(min-width:900px){body{padding-bottom:0;}}
 img{max-width:100%;display:block;}
 a{color:var(--accent);text-underline-offset:.15em;}
@@ -83,8 +81,11 @@ button{font:inherit;color:inherit;}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .skip{position:absolute;left:-999px;top:0;z-index:100;background:var(--brand);color:var(--brand-ink);padding:.6rem 1rem;border-radius:0 0 var(--r-xs) 0;}
 .skip:focus{left:0;}
-.container{max-width:1180px;margin:0 auto;padding:0 1rem;}
-@media(min-width:700px){.container{padding:0 1.5rem;}}
+/* Seitenrand: wächst mit der Textgröße (rem) und respektiert die Ränder von iPhone & Co. */
+:root{--gutter:1.25rem;}
+@media(min-width:700px){:root{--gutter:1.5rem;}}
+@media(min-width:1100px){:root{--gutter:2rem;}}
+.container{max-width:1180px;margin:0 auto;padding-left:max(var(--gutter), env(safe-area-inset-left));padding-right:max(var(--gutter), env(safe-area-inset-right));}
 
 /* ---------- Toolbar ---------- */
 .toolbar{
@@ -159,6 +160,8 @@ button{font:inherit;color:inherit;}
 .toolbar .container.c2 .fontgroup{display:none;}
 .toolbar .container.c3 .mainnav{display:none;}
 .toolbar .container.c4 .brand .wm{display:none;}
+@media(max-width:899px){.toolbar .container.c5 .tools a.tbtn[href="#/merkliste"]{display:none;}}
+.toolbar .container.c6 #themeBtn{display:none;}
 
 /* Settings popover (mobile font size etc.) */
 .popover{
@@ -292,7 +295,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.015em;
 .chip{
   max-width:100%;
   display:inline-flex;align-items:center;gap:.3rem;font-size:.74rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;
-  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:normal;
 }
 a.chip{text-decoration:none;}
 a.chip:hover{border-color:var(--line-2);color:var(--ink);}
@@ -407,7 +410,8 @@ mark{background:color-mix(in srgb, var(--accent-2) 35%, transparent);color:inher
 .effect b{display:block;font-size:.98rem;}
 .effect p{margin:.2rem 0 0;font-size:.9rem;color:var(--ink-2);}
 .lvfilter{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.8rem;}
-.kv{display:grid;gap:.9rem;}
+.kv{display:grid;grid-template-columns:minmax(0,1fr);gap:.9rem;}
+.card{min-width:0;}
 .kv h4{margin:0 0 .2rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
 .kv p{margin:0;}
 .srcs{margin:0;padding-left:1.1rem;} .srcs li{margin-bottom:.4rem;font-size:.9rem;}
@@ -504,9 +508,9 @@ details.acc table.tbl td{padding:.5rem .6rem;border-bottom:1px solid var(--line)
 .band h2{font-size:clamp(1.5rem,3vw,2.1rem);}
 .band p{color:color-mix(in srgb, var(--brand-ink) 78%, transparent);}
 .band .btn{background:var(--accent);color:#fff;}
-.band ul{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;}
-.band li{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;}
-.band li::before{content:"✓";color:var(--accent-2);font-weight:800;}
+.band ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;}
+.band li{position:relative;padding-left:1.4rem;font-size:.95rem;}
+.band li::before{content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:800;}
 
 /* ---------- Footer ---------- */
 .footer{border-top:1px solid var(--line);margin-top:3rem;padding:2.5rem 0 2rem;background:var(--bg-2);font-size:.88rem;color:var(--ink-2);}
