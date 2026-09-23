@@ -158,8 +158,9 @@ function curFs(){ return store.get("ph-fs", 1); }
 /* Toolbar stufenweise verdichten, bis sie passt */
 function fitToolbar(){
   const c = $(".toolbar .container"); if(!c) return;
-  c.classList.remove("c1", "c2", "c3", "c4");
-  for(const k of ["c1", "c2", "c3", "c4"]){ if(c.scrollWidth <= c.clientWidth + 1) break; c.classList.add(k); }
+  const steps = ["c1", "c2", "c3", "c4", "c5", "c6"];
+  c.classList.remove(...steps);
+  for(const k of steps){ if(c.scrollWidth <= c.clientWidth + 1) break; c.classList.add(k); }
 }
 window.addEventListener("resize", fitToolbar);
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitToolbar);

@@ -38,17 +38,17 @@ const EXTRA = {
 };
 
 const FLAGS = {
-  gerinnung: {label:"Gerinnungshemmer", sub:"ASS, Clopidogrel, Marcumar, DOAK", icon:"🩸"},
+  gerinnung: {label:"Gerinnungs\u00adhemmer", sub:"ASS, Clopidogrel, Marcumar, DOAK", icon:"🩸"},
   op:        {label:"Operation geplant", sub:"in den nächsten 2–3 Wochen", icon:"🏥"},
-  diabetes:  {label:"Diabetes-Medikamente", sub:"Metformin, Insulin, Sulfonylharnstoffe", icon:"🍬"},
-  blutdruck: {label:"Blutdrucksenker", sub:"ACE-Hemmer, Betablocker u. a.", icon:"💓"},
-  diuretika: {label:"Entwässerungsmittel", sub:"Diuretika, Elektrolytprobleme", icon:"💧"},
-  immun:     {label:"Immunsuppressiva", sub:"nach Transplantation, Kortison hochdosiert, Biologika", icon:"🛡️"},
-  autoimmun: {label:"Autoimmunerkrankung", sub:"Rheuma, MS, Hashimoto, Lupus …", icon:"🔄"},
-  chemo:     {label:"Laufende Krebstherapie", sub:"Chemo, Bestrahlung, Immuntherapie", icon:"🎗️"},
-  leber:     {label:"Lebererkrankung", sub:"erhöhte Leberwerte, Hepatitis, Fettleber", icon:"🟤"},
-  niere:     {label:"Nierenerkrankung / Nierensteine", sub:"eingeschränkte Nierenfunktion, Oxalatsteine", icon:"🫘"},
-  allergie:  {label:"Pilz- oder Schimmelallergie", sub:"Sporen, Pilzproteine", icon:"🤧"},
+  diabetes:  {label:"Diabetes-Medi\u00adkamente", sub:"Metformin, Insulin, Sulfonylharnstoffe", icon:"🍬"},
+  blutdruck: {label:"Blutdruck\u00adsenker", sub:"ACE-Hemmer, Betablocker u. a.", icon:"💓"},
+  diuretika: {label:"Entwässerungs\u00admittel", sub:"Diuretika, Elektrolytprobleme", icon:"💧"},
+  immun:     {label:"Immun\u00adsuppressiva", sub:"nach Transplantation, Kortison hochdosiert, Biologika", icon:"🛡️"},
+  autoimmun: {label:"Autoimmun\u00aderkrankung", sub:"Rheuma, MS, Hashimoto, Lupus …", icon:"🔄"},
+  chemo:     {label:"Laufende Krebs\u00adtherapie", sub:"Chemo, Bestrahlung, Immuntherapie", icon:"🎗️"},
+  leber:     {label:"Leber\u00aderkrankung", sub:"erhöhte Leberwerte, Hepatitis, Fettleber", icon:"🟤"},
+  niere:     {label:"Nieren\u00aderkrankung / Nieren\u00adsteine", sub:"eingeschränkte Nierenfunktion, Oxalatsteine", icon:"🫘"},
+  allergie:  {label:"Pilz- oder Schimmel\u00adallergie", sub:"Sporen, Pilzproteine", icon:"🤧"},
   gicht:     {label:"Gicht / Harnsäure", sub:"purinreiche Kost", icon:"🦶"},
   roh:       {label:"Ich esse Pilze roh", sub:"Salat, Bowl, Smoothie", icon:"🥗"},
   schwanger: {label:"Schwanger oder stillend", sub:"", icon:"🤰"}
