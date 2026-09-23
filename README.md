@@ -25,6 +25,21 @@ Zweite Seite: https://stephandel.github.io/scheinfasten/heilpilze.html
 
 Alle Daten stecken in `MUSHROOMS` und `REFERENCE` im `<script>`-Block von `heilpilze.html`.
 
+## Pilz Handel (Webapp)
+
+https://stephandel.github.io/scheinfasten/pilzhandel/
+
+Die Heilpilz-Daten als installierbare Webapp im Stil moderner Vitalpilz-Shops, aber mit Evidenz statt Werbeversprechen. Konzept, Designentscheidungen und Ausbauplan: [`pilzhandel/KONZEPT.md`](pilzhandel/KONZEPT.md).
+
+- Startseite mit Anliegen-Finder, Katalog mit Filtern, Detailseite pro Pilz
+- Wechselwirkungs-Check (14 Medikamente und Umstände), Vergleich von bis zu 3 Pilzen, teilbare Merkliste
+- Einkaufs-Checkliste, kuratierte Shops (Extrakte, Frischpilze, Zuchtsets, Apotheke) und seriöse Infoseiten
+- Toolbar mit Suche und Live-Vorschlägen, Textgröße in 5 Stufen, Hell/Dunkel/Auto
+- Offlinefähig und installierbar (PWA), keine Abhängigkeiten, kein Tracking
+- Fotos werden von Wikimedia Commons geladen; fehlt ein Foto, erscheint eine Illustration
+
+Daten ändern: `heilpilze.html` bearbeiten, dann `node pilzhandel/tools/build-data.js` ausführen. Bilder, Farben, Wechselwirkungen und Shops stehen direkt in `pilzhandel/tools/build-data.js`.
+
 ## Technik
 
 Zwei statische Dateien, `index.html` und `heilpilze.html`. Kein Build, keine Abhängigkeiten, kein Framework, kein Netzwerkzugriff zur Laufzeit. Läuft überall, wo statische Dateien ausgeliefert werden.
