@@ -13,9 +13,36 @@ Persönlicher 8-Tage-Scheinfastenplan (2.–9. September 2026) als einzelne, sta
 - Aufklappbare Referenz: Sicherheit, Grundlagen, Einkaufsliste, FODMAP, Verlauf, Arbeit
 - Auswahl (Person/Tag/Tab) wird in `localStorage` gemerkt
 
+## Heilpilze-Nachschlagewerk
+
+Zweite Seite: https://stephandel.github.io/scheinfasten/heilpilze.html
+
+- 21 in Deutschland kaufbare Heil- und Vitalpilze (Reishi, Shiitake, Coriolus, Austernpilz, Hericium, Cordyceps, Agaricus, Maitake, Chaga, Judasohr, Eichhase, Schopftintling, Silberohr, Phellinus, Poria, Antrodia, Krause Glucke, Enoki, Champignon, Zunderschwamm, Lärchenschwamm)
+- Jede Wirkungsaussage einzeln eingestuft: **E** evidenzbasiert (RCT/Meta-Analyse), **F** Forschung (Labor, Tier, Pilotstudie), **T** TCM/Tradition, **S** Sonstige/Marketing
+- Punktwert 0–4 für die Humanevidenz insgesamt, Sicherheitshinweise, Dosierung, Inhaltsstoffe, Quellenlinks pro Pilz
+- Volltextsuche mit Hervorhebung, Filter nach Anwendungsgebiet und Evidenzstufe, Mindest-Evidenz, Sortierung, Karten- oder Tabellenansicht
+- Nachschlageteil: Bewertungsmethode, Einkaufskriterien (Pulver/Extrakt/Myzel), Wechselwirkungen, Rechtslage (Health Claims, Novel Food)
+
+Alle Daten stecken in `MUSHROOMS` und `REFERENCE` im `<script>`-Block von `heilpilze.html`.
+
+## Pilz Handel (Webapp)
+
+https://stephandel.github.io/scheinfasten/pilzhandel/
+
+Die Heilpilz-Daten als installierbare Webapp im Stil moderner Vitalpilz-Shops, aber mit Evidenz statt Werbeversprechen. Konzept, Designentscheidungen und Ausbauplan: [`pilzhandel/KONZEPT.md`](pilzhandel/KONZEPT.md).
+
+- Startseite mit Anliegen-Finder, Katalog mit Filtern, Detailseite pro Pilz
+- Wechselwirkungs-Check (14 Medikamente und Umstände), Vergleich von bis zu 3 Pilzen, teilbare Merkliste
+- Einkaufs-Checkliste, kuratierte Shops (Extrakte, Frischpilze, Zuchtsets, Apotheke) und seriöse Infoseiten
+- Toolbar mit Suche und Live-Vorschlägen, Textgröße in 5 Stufen, Hell/Dunkel/Auto
+- Offlinefähig und installierbar (PWA), keine Abhängigkeiten, kein Tracking
+- Fotos werden von Wikimedia Commons geladen; fehlt ein Foto, erscheint eine Illustration
+
+Daten ändern: `heilpilze.html` bearbeiten, dann `node pilzhandel/tools/build-data.js` ausführen. Bilder, Farben, Wechselwirkungen und Shops stehen direkt in `pilzhandel/tools/build-data.js`.
+
 ## Technik
 
-Eine einzige Datei, `index.html`. Kein Build, keine Abhängigkeiten, kein Framework, kein Netzwerkzugriff zur Laufzeit. Läuft überall, wo statische Dateien ausgeliefert werden.
+Zwei statische Dateien, `index.html` und `heilpilze.html`. Kein Build, keine Abhängigkeiten, kein Framework, kein Netzwerkzugriff zur Laufzeit. Läuft überall, wo statische Dateien ausgeliefert werden.
 
 ## Inhalte ändern
 
