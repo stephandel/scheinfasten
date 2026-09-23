@@ -1,7 +1,7 @@
 /* Pilz Handel · Service Worker
    App-Dateien: zuerst aus dem Cache, im Hintergrund aktualisieren.
    Fotos und Schriften: nach dem ersten Laden aus dem Cache (offline verfügbar). */
-const VERSION = "ph-v1";
+const VERSION = "ph-v2";
 const SHELL = ["./", "index.html", "app.css", "app.js", "data.js", "icon.svg", "logo.svg", "manifest.webmanifest", "icons/icon-192.png"];
 
 self.addEventListener("install", e => {
