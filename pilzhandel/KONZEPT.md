@@ -17,7 +17,7 @@ Die Seite selbst ließ sich aus der Arbeitsumgebung nicht öffnen, weil die Netz
 | Heilpilze **in den Alltag holen** (Drinks, Flüssigextrakt, Kaffee statt Kapseln) | Rubrik „Frisch kaufen statt Kapseln“ und Speisepilz-Hinweise pro Pilz; später Rezepte |
 | Produktlinien nach **Tageszeit und Bedürfnis** (Day, Night, Focus) | Finder nach Anliegen auf der Startseite (13 Kacheln) |
 | **Transparenz** als Verkaufsargument: EU-Herkunft, Bio, laborgeprüft, Polysaccharidgehalt | Einkaufs-Checkliste und Shop-Auswahl nach genau diesen Kriterien |
-| **Markengeschichte** („small saints“, der Aztekenname für Pilze) | Eigene Geschichte: Pilz Handel als ehrlicher Händler von Wissen |
+| **Markengeschichte** („small saints“, der Aztekenname für Pilze) | Eigene Geschichte: Handel ist der Familienname. Persönlich statt Konzern, das Wortspiel „mit Wissen handeln“ gibt es gratis dazu |
 | **Help-Center, Blog, Erfahrungsseite, Presse, Broschüre** | Wissensbereich mit FAQ, Methode und Rechtslage; Blog als nächste Stufe |
 | **Bundles und Starter-Sets** | Vergleich von bis zu 3 Pilzen und teilbare Merkliste als „Starter-Set“ |
 | Warme Naturfotografie, weiche Farben, runde Formen, große Schrift | Übernommen: Cremetöne, Erdbraun, Terrakotta-Akzent, Fraunces und DM Sans, runde Karten |
@@ -29,7 +29,8 @@ Wo wir uns absetzen: smaints wirbt mit Wirkung, wir ordnen Wirkung ein. Das ist 
 
 - **Farben:** Creme `#F7F1E8` als Grund, Erdbraun `#3A2A1F` für Marke und Knöpfe, Terrakotta `#B4602E` als Akzent, Moosgrün für „belegt“. Im Dunkelmodus warme Braun-Schwarztöne statt kaltem Grau.
 - **Schrift:** Fraunces, eine weiche Serifenschrift, für Überschriften und das Logo. DM Sans, eine gut lesbare Grotesk, für Text.
-- **Logo:** Brauner Pilz im Stil von 🍄‍🟫 mit Moos am Fuß. Schriftzug „Pilz“ gerade, „Handel“ kursiv in Terrakotta. Untertitel: Heilpilze · Evidenz · Einkauf. Dateien: `logo.svg`, `icon.svg`, PNG-Icons in `icons/`.
+- **Name:** Handel ist der Nachname. Die Marke ist damit persönlich, wie ein Familienbetrieb. Das Wortspiel mit „handeln“ trägt die Idee: Hier wird Wissen weitergegeben, keine Ware verkauft.
+- **Logo:** Brauner Pilz im Stil von 🍄‍🟫 mit Moos am Fuß. Schriftzug „Pilz“ gerade, „Handel“ kursiv in Terrakotta, das wirkt wie eine Unterschrift unter dem Pilz. Untertitel: Heilpilze · Evidenz · Einkauf. Dateien: `logo.svg`, `icon.svg`, PNG-Icons in `icons/`.
 - **Bilder:** Fotos von Wikimedia Commons, direkt im Browser geladen. Lädt ein Foto nicht, zeigt die App eine gezeichnete Illustration in der Farbe des Pilzes. Die Seite sieht also nie kaputt aus.
 
 ## 4. Bedienung (Usability)
@@ -68,9 +69,9 @@ Wo wir uns absetzen: smaints wirbt mit Wirkung, wir ordnen Wirkung ein. Das ist 
 | 3 | Eigener Shop oder Affiliate-Links, klar gekennzeichnet | groß, rechtlich prüfen |
 | 3 | Konto mit Synchronisierung über Geräte | groß |
 
-## 6. Wenn „Pilz Handel“ wirklich verkaufen soll
+## 6. Falls später doch verkauft wird
 
-Dann gelten zusätzliche Pflichten:
+„Handel“ ist der Nachname, die App verkauft nichts. Solange sie ein privates Informationsprojekt ohne Werbung bleibt, reicht der jetzige Stand. Kämen später Affiliate-Links oder ein eigener Shop dazu, gelten zusätzliche Pflichten:
 
 - **Impressum und Datenschutzerklärung** sind Pflicht, sobald die Seite geschäftsmäßig ist.
 - **Health-Claims-Verordnung:** Keine Wirkversprechen bei eigenen Produkten. Die Evidenzseite muss vom Shop klar getrennt sein, sonst wird sie rechtlich zur Werbung.

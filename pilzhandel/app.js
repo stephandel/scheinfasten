@@ -794,6 +794,7 @@ function about(el){
   <div class="container" style="max-width:48rem">
     <p class="dsum">Der Markt für Heilpilze wächst schneller als die Studienlage. Pilz Handel sortiert jede Wirkungsbehauptung nach ihrer besten Quelle, damit du Chancen und Risiken selbst abwägen kannst.</p>
     <div class="card kv">
+      <div><h4>Der Name</h4><p>Handel ist der Nachname des Machers. Das Wortspiel nehmen wir gern mit: Gehandelt wird hier mit Wissen, nicht mit Kapseln.</p></div>
       <div><h4>Unabhängigkeit</h4><p>Keine Werbepartner, keine Provisionen. Shops werden nach offengelegten Kriterien aufgenommen.</p></div>
       <div><h4>Quellen</h4><p>Cochrane-Reviews, randomisierte Studien, Fallberichte und Behördeninformationen. Jede Quelle ist beim jeweiligen Pilz verlinkt.</p></div>
       <div><h4>Grenzen</h4><p>Studien zu Heilpilzen sind oft klein, herstellerfinanziert oder nur für ein bestimmtes Präparat aussagekräftig. Neue Studien können Einstufungen ändern.</p></div>
