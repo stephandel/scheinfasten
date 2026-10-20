@@ -6,7 +6,8 @@
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
-    for (const k of await caches.keys()) await caches.delete(k);
+    // Nur ph-v1 ist sicher von hier; ph-v2 und ph-media heißen bei Heilpilze gleich.
+    await caches.delete('ph-v1');
     await self.registration.unregister();
     for (const c of await self.clients.matchAll({ type: 'window' })) c.navigate(c.url);
   })());

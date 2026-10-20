@@ -17,8 +17,9 @@
   // Den alten Service Worker abmelden, sonst liefert eine installierte Kopie
   // weiterhin die zwischengespeicherte alte Fassung aus.
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
-    if (window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
+    // Nur den eigenen: getRegistrations liefert alle Apps unter stephandel.github.io.
+    navigator.serviceWorker.getRegistrations().then(rs => rs.filter(r => r.scope.includes('/scheinfasten/pilzhandel/')).forEach(r => r.unregister()));
+    if (window.caches) caches.delete('ph-v1');
   }
   var ziel = 'https://stephandel.github.io/heilpilze/pilzhandel/' + (location.hash || '');
   document.getElementById('ziel').href = ziel;
